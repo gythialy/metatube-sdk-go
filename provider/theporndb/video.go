@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"net/url"
 	"path"
-	"strings"
 
 	"github.com/gocolly/colly/v2"
 	"golang.org/x/text/language"
@@ -70,10 +69,12 @@ func NewThePornDBMovie() *ThePornDBVideo {
 	return new(MovieProviderName, movieBaseURL, moviePageURL, apiGetMovieURL, apiSearchMovieURL)
 }
 
-func (s *ThePornDBVideo) SetConfig(config map[string]string) error {
-	if accessToken, ok := config["ACCESS_TOKEN"]; ok {
-		fmt.Println(s.Name(), "set token")
-		s.accessToken = accessToken
+func (s *ThePornDBVideo) SetConfig(config provider.Config) error {
+	if config.Has("ACCESS_TOKEN") {
+		if accessToken, err := config.GetString("ACCESS_TOKEN"); err == nil {
+			fmt.Println(s.Name(), "set token")
+			s.accessToken = accessToken
+		}
 	}
 	return nil
 }
@@ -158,7 +159,7 @@ func (s *ThePornDBVideo) NormalizeMovieKeyword(keyword string) string {
 	if number.IsSpecial(keyword) {
 		return ""
 	}
-	return strings.ToUpper(keyword)
+	return number.NormalizeMovieKeyword(keyword, "")
 }
 
 // SearchMovie impls MovieSearcher.SearchMovie.
