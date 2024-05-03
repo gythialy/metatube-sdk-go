@@ -30,6 +30,7 @@ import (
 	_ "github.com/metatube-community/metatube-sdk-go/provider/javbus"
 	_ "github.com/metatube-community/metatube-sdk-go/provider/javfree"
 	_ "github.com/metatube-community/metatube-sdk-go/provider/kin8tengoku"
+	_ "github.com/metatube-community/metatube-sdk-go/provider/madouqu"
 	_ "github.com/metatube-community/metatube-sdk-go/provider/mgstage"
 	_ "github.com/metatube-community/metatube-sdk-go/provider/muramura"
 	_ "github.com/metatube-community/metatube-sdk-go/provider/mywife"
