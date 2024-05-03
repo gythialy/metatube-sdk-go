@@ -32,7 +32,7 @@ func (e *engine) DB() *gorm.DB {
 }
 
 func (e *engine) Driver() string {
-	return e.db.Config.Dialector.Name()
+	return e.db.Name()
 }
 
 func (e *engine) AutoMigrate() error {
@@ -103,5 +103,5 @@ func (e *engine) Version() (version string, err error) {
 	default:
 		err = fmt.Errorf("unsupported DB type: %s", e.Driver())
 	}
-	return
+	return version, err
 }
