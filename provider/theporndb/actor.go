@@ -43,9 +43,11 @@ func NewThePornDBActor() *ThePornDBActor {
 	}
 }
 
-func (s *ThePornDBActor) SetConfig(config map[string]string) error {
-	if accessToken, ok := config["ACCESS_TOKEN"]; ok {
-		s.accessToken = accessToken
+func (s *ThePornDBActor) SetConfig(config provider.Config) error {
+	if config.Has("ACCESS_TOKEN") {
+		if accessToken, err := config.GetString("ACCESS_TOKEN"); err == nil {
+			s.accessToken = accessToken
+		}
 	}
 	return nil
 }
@@ -120,7 +122,7 @@ func (s *ThePornDBActor) GetActorInfoByID(id string) (info *model.ActorInfo, err
 	headers := http.Header{}
 	headers.Set("Authorization", fmt.Sprintf("Bearer %s", s.accessToken))
 	err = c.Request(http.MethodGet, fmt.Sprintf(apiGetActorURL, id), nil, nil, headers)
-	return
+	return info, err
 }
 
 // GetActorInfoByURL impls ActorProvider.GetActorInfoByURL.
@@ -176,7 +178,7 @@ func (s *ThePornDBActor) SearchActor(keyword string) (results []*model.ActorSear
 	headers := http.Header{}
 	headers.Set("Authorization", fmt.Sprintf("Bearer %s", s.accessToken))
 	err = c.Request(http.MethodGet, fmt.Sprintf(apiSearchActorURL, url.QueryEscape(keyword)), nil, nil, headers)
-	return
+	return results, err
 }
 
 var chestSizeRE = regexp.MustCompile(`^(\d+)([A-Z])$`)

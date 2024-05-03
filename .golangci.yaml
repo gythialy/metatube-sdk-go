@@ -20,7 +20,7 @@ linters:
 formatters:
   enable:
     - gci
-    - gofumpt
+    # - gofumpt
   settings:
     gci:
       sections:
